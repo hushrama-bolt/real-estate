@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Property } from '../types';
+import { colors, typography, borderRadius, shadows, spacing } from '../constants/theme';
+import StatusBadge from './StatusBadge';
 
 interface PropertyCardProps {
   property: Property;
@@ -22,28 +24,19 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
       )}
 
       <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.title} numberOfLines={1}>
-            {property.title}
-          </Text>
-          <View style={[styles.statusBadge, { backgroundColor: statusColor }]}>
-            <Text style={styles.statusText}>{property.status}</Text>
-          </View>
-        </View>
-
         <Text style={styles.price}>${property.price.toLocaleString()}</Text>
 
         <Text style={styles.address} numberOfLines={1}>
-          {property.address}, {property.city}, {property.state}
+          {property.address}, {property.city}
         </Text>
 
         <View style={styles.details}>
-          <Text style={styles.detailText}>{property.bedrooms} bed</Text>
-          <Text style={styles.separator}>•</Text>
-          <Text style={styles.detailText}>{property.bathrooms} bath</Text>
+          <Text style={styles.detailText}>{property.bedrooms} beds</Text>
+          <Text style={styles.separator}>·</Text>
+          <Text style={styles.detailText}>{property.bathrooms} baths</Text>
           {property.square_feet && (
             <>
-              <Text style={styles.separator}>•</Text>
+              <Text style={styles.separator}>·</Text>
               <Text style={styles.detailText}>{property.square_feet.toLocaleString()} sqft</Text>
             </>
           )}
@@ -55,78 +48,50 @@ export default function PropertyCard({ property, onPress }: PropertyCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: colors.surface.white,
+    borderRadius: borderRadius.xl,
+    marginBottom: spacing.md,
+    ...shadows.card,
     overflow: 'hidden',
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 240,
   },
   imagePlaceholder: {
     width: '100%',
-    height: 200,
-    backgroundColor: '#e5e7eb',
+    height: 240,
+    backgroundColor: colors.surface.light,
     justifyContent: 'center',
     alignItems: 'center',
   },
   placeholderText: {
-    color: '#9ca3af',
-    fontSize: 14,
+    ...typography.caption,
+    color: colors.text.muted,
   },
   content: {
-    padding: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    flex: 1,
-    marginRight: 8,
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-  },
-  statusText: {
-    color: '#fff',
-    fontSize: 10,
-    fontWeight: '600',
-    textTransform: 'uppercase',
+    padding: spacing.md,
   },
   price: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2563eb',
-    marginBottom: 8,
+    ...typography.h2,
+    color: colors.primary,
+    marginBottom: spacing.xs,
   },
   address: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginBottom: 8,
+    ...typography.caption,
+    color: colors.text.muted,
+    marginBottom: spacing.sm,
   },
   details: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   detailText: {
-    fontSize: 14,
-    color: '#374151',
+    ...typography.caption,
+    color: colors.text.primary,
   },
   separator: {
-    marginHorizontal: 8,
-    color: '#9ca3af',
+    marginHorizontal: spacing.sm,
+    color: colors.text.muted,
   },
 });

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import { colors, typography, spacing } from '../constants/theme';
 
 export default function AuthScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -32,49 +35,50 @@ export default function AuthScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RealEstate</Text>
-      <Text style={styles.subtitle}>{isSignUp ? 'Create Account' : 'Welcome Back'}</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>RealEstate</Text>
+        <Text style={styles.subtitle}>{isSignUp ? 'Create Account' : 'Welcome Back'}</Text>
+      </View>
 
-      {isSignUp && (
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          value={fullName}
-          onChangeText={setFullName}
-          autoCapitalize="words"
+      <View style={styles.form}>
+        {isSignUp && (
+          <Input
+            placeholder="Full Name"
+            value={fullName}
+            onChangeText={setFullName}
+            autoCapitalize="words"
+          />
+        )}
+
+        <Input
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
-      )}
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
+        <Input
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <Button
+          title={isSignUp ? 'Sign Up' : 'Sign In'}
+          onPress={handleAuth}
+          loading={loading}
+          fullWidth
+        />
 
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
-        onPress={handleAuth}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>{loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
-        <Text style={styles.linkText}>
-          {isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'}
-        </Text>
-      </TouchableOpacity>
+        <Button
+          title={isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'}
+          onPress={() => setIsSignUp(!isSignUp)}
+          variant="ghost"
+          fullWidth
+        />
+      </View>
     </View>
   );
 }
@@ -82,51 +86,24 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.bg.light,
+    padding: spacing.lg,
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: spacing['2xl'],
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
+    ...typography.h1,
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
   },
   subtitle: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#6b7280',
-    marginBottom: 32,
+    ...typography.h3,
+    color: colors.text.muted,
   },
-  input: {
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    fontSize: 16,
-  },
-  button: {
-    backgroundColor: '#2563eb',
-    height: 50,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  linkText: {
-    textAlign: 'center',
-    color: '#2563eb',
-    marginTop: 16,
-    fontSize: 14,
+  form: {
+    width: '100%',
   },
 });

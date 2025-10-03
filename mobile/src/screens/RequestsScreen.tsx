@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { colors, typography, spacing } from '../constants/theme';
 
 export default function RequestsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Requests</Text>
-      <Text style={styles.subtitle}>Your property requests will appear here</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Requests</Text>
+      </View>
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>Your property requests will appear here</Text>
+      </View>
     </View>
   );
 }
@@ -13,16 +18,26 @@ export default function RequestsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
-    padding: 16,
+    backgroundColor: colors.surface.white,
+  },
+  header: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.lg,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    ...typography.h1,
+    color: colors.text.primary,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#6b7280',
+    ...typography.body,
+    color: colors.text.muted,
+    textAlign: 'center',
   },
 });
